@@ -37,17 +37,19 @@ const server = http.createServer((req, res) => { // called everytime this functi
     res.end(STATUS_CODES[res.statusCode] + '\r\n');
     return;
   }
-  console.log(req.url)
+
   const { pathname } = url.parse(req.url);
-  console.log(pathname);
+
   if (pathname === '/') {
     res.end(root);
     return;
   }
+
   if (pathname === '/hello') {
     res.end(hello);
     return
   }
+
   res.statusCode = 404;
   res.end(STATUS_CODES[res.statusCode] + '\r\n');
 });
