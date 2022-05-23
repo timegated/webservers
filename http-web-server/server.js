@@ -4,7 +4,6 @@ const http = require('http');
 const PORT = process.env.PORT || 3000;
 const { STATUS_CODES } = http;
 
-
 const hello = `<html>
   <head>
     <style>
@@ -38,8 +37,9 @@ const server = http.createServer((req, res) => { // called everytime this functi
     res.end(STATUS_CODES[res.statusCode] + '\r\n');
     return;
   }
-
-  const pathname = url.parse(req.url);
+  console.log(req.url)
+  const { pathname } = url.parse(req.url);
+  console.log(pathname);
   if (pathname === '/') {
     res.end(root);
     return;
