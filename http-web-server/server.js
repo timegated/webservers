@@ -1,20 +1,55 @@
 'use strict'
-
+const url = require('url');
 const http = require('http');
 const PORT = process.env.PORT || 3000;
+const { STATUS_CODES } = http;
+
 
 const hello = `<html>
   <head>
-  <style> body { background: black } h1 { color: grey }</style>
+    <style>
+     body { background: #333; margin: 1.25rem }
+     h1 { color: #EEE; font-family: sans-serif }
+   </style>
   </head>
   <body>
     <h1>Hello World</h1>
   </body>
-</html>`
+</html>`;
 
+const root = `<html>
+<head>
+  <style>
+   body { background: #333; margin: 1.25rem }
+   a { color: yellow; font-size: 2rem; font-family: sans-serif }
+  </style>
+</head>
+<body>
+  <a href='/hello'>Hello</a>
+</body>
+</html>
+`;
+
+// GET POST AND PUT requests all send the same response back from the server
 const server = http.createServer((req, res) => { // called everytime this function receives a request.
   res.setHeader('Content-Type', 'text/html');
-  res.end(hello);
+  if (req.method !== 'GET') {
+    res.statusCode = 405;
+    res.end(STATUS_CODES[res.statusCode] + '\r\n');
+    return;
+  }
+
+  const pathname = url.parse(req.url);
+  if (pathname === '/') {
+    res.end(root);
+    return;
+  }
+  if (pathname === '/hello') {
+    res.end(hello);
+    return
+  }
+  res.statusCode = 404;
+  res.end(STATUS_CODES[res.statusCode] + '\r\n');
 });
 
 server.listen(PORT);
