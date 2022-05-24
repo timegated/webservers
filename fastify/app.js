@@ -4,7 +4,8 @@ const path = require('path')
 const AutoLoad = require('fastify-autoload')
 
 // Exporting an async function (returns a promise);
-// Everything is a plugin with fastify
+// Everything is a plugin with fastify.
+// Distinction between plugins and routes is mostly convention.
 module.exports = async function (fastify, opts) {
   // Place here your custom code!
 
