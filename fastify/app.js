@@ -25,4 +25,12 @@ module.exports = async function (fastify, opts) {
     dir: path.join(__dirname, 'routes'),
     options: Object.assign({}, opts)
   })
+  // We're passing fastify in as an argument as part of the plugin pattern or whatever it is.
+  fastify.setNotFoundHandler((request, reply) => {
+    if (request.method !== 'GET') {
+      reply.status(405);
+      return 'Method Not Allowed\n';
+    }
+    return 'Not Found\n';
+  });
 }
