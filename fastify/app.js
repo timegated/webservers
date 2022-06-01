@@ -3,14 +3,16 @@
 const path = require('path')
 const AutoLoad = require('fastify-autoload')
 
-// Exporting an async function (returns a promise);
-// Everything is a plugin with fastify.
-// Distinction between plugins and routes is mostly convention.
+const dev = process.env.NODE_ENV !== 'production'
+
+const fastifyStatic = dev && require('fastify-static')
+
 module.exports = async function (fastify, opts) {
-  // Place here your custom code!
-
-  // Do not touch the following lines
-
+  if (dev) {
+    fastify.register(fastifyStatic, {
+      root: path.join(__dirname, 'public')
+    })
+  }
   // This loads all plugins defined in plugins
   // those should be support plugins that are reused
   // through your application
