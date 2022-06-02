@@ -21,6 +21,7 @@
     "fastify-plugin": "^3.0.0",
     "fastify-sensible": "^3.1.2",
     "handlebars": "^4.7.7",
+    "hn-latest-stream": "^1.0.2",
     "point-of-view": "^6.2.1"
   },
   "devDependencies": {
