@@ -3,16 +3,21 @@
 const path = require('path')
 const AutoLoad = require('fastify-autoload')
 
+const pointOfView = require('point-of-view');
+const handlebars = require('handlebars');
+
 const dev = process.env.NODE_ENV !== 'production'
 
 const fastifyStatic = dev && require('fastify-static')
 
 module.exports = async function (fastify, opts) {
-  if (dev) {
-    fastify.register(fastifyStatic, {
-      root: path.join(__dirname, 'public')
-    })
-  }
+  // With this server performs on the fly dynamic rendering
+  fastify.register(pointOfView, {
+    engine: { handlebars },
+    root: path.join(__dirname, 'views'),
+    layout: 'layout.hbs',
+  });
+
   // This loads all plugins defined in plugins
   // those should be support plugins that are reused
   // through your application

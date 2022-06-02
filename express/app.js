@@ -1,4 +1,5 @@
 'use strict'
+
 // Principles of least surprise and separation of concerns violated
 const express = require('express');
 const createError = require('http-errors');
