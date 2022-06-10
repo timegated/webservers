@@ -1,7 +1,14 @@
 'use strict'
 const { promisify } = require('util');
 const { bicycle } = require('../../model');
-const read = promisify(bicycle.read);
+
+const { uid, read, create, del, update } = bicycle;
+
+const promUid = promisify(uid);
+const promRead = promisify(read);
+const promCreate = promisify(create);
+const promDel = promisify(del);
+const promUpdate = promisify(update);
 
 /**
  * Restful GET Criterion:
@@ -31,13 +38,49 @@ const read = promisify(bicycle.read);
 
 // Syntactic sugariness for above.
 // Arguably more "readable"
+// module.exports = async (fastify, opts) => {
+//   const { notFound } = fastify.httpErrors;
+
+//   fastify.get('/:id', async (request, reply) => {
+//     const { id } = request.params;
+//     try {
+//       return await read(id);
+//     } catch (error) {
+//       if (error.message === 'not found') throw notFound();
+//       throw error;
+//     }
+//   });
+// }
+// new methods PUT, POST, DELETE
+
+
 module.exports = async (fastify, opts) => {
   const { notFound } = fastify.httpErrors;
+
+  fastify.post('/', async (request, reply) => {
+    const { data } = request.body;
+    const id = promUid();
+    await promCreate(id, data);
+    reply.code(201);
+    return { id };
+  });
+
+  fastify.post('/:id/update', async (request, reply) => {
+    const { id } = request.params;
+    const { data } = request.body;
+    try {
+      await promUpdate(id, data);
+      reply.code(204)
+    } catch (error) {
+      if (error.message === 'not found') throw notFound();
+      throw error;
+    }
+  });
 
   fastify.get('/:id', async (request, reply) => {
     const { id } = request.params;
     try {
-      return await read(id);
+      return await promRead(id);
     } catch (error) {
       if (error.message === 'not found') throw notFound();
       throw error;
