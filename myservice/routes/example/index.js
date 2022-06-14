@@ -68,7 +68,7 @@ module.exports = async (fastify, opts) => {
     const id = uid();
     await create(id, data);
     console.log(id)
-    reply.code(201);
+    reply.code(201); // Successful POST
     return { id };
   });
 
@@ -88,6 +88,34 @@ module.exports = async (fastify, opts) => {
     const { id } = request.params;
     try {
       return await read(id);
+    } catch (error) {
+      if (error.message === 'not found') throw notFound();
+      throw error;
+    }
+  });
+
+  fastify.put('/:id', async (request, reply) => {
+    const { id } = request.params;
+    const { data } = request.body;
+    try {
+      await create(id, data);
+      reply.code(201);
+      return {};
+    } catch (error) {
+      if (error.message === 'resource exists') {
+        await update(id, data);
+        reply.code(204); // No content to send back (request is successful)
+      } else {
+        throw error;
+      }
+    }
+  });
+
+  fastify.delete('/:id', async (request, reply) => {
+    const { id } = request.params;
+    try {
+      await del(id);
+      reply.code(204);
     } catch (error) {
       if (error.message === 'not found') throw notFound();
       throw error;
