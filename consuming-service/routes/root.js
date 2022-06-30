@@ -1,5 +1,5 @@
 'use strict'
-const got = require('got');
+const got = require('got'); // service for handling async requests -- Request library
 
 const {
   BICYCLE_SERVICE_PORT = 4000, // Setting the ports to process.env variable
