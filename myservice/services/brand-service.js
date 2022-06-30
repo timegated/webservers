@@ -4,9 +4,10 @@ const url = require('url')
 const brands = ['Gazelle', 'Batavus', 'Azor', 'Cortina', 'Giant', 'Sparta']
 const MISSING = 3
 
+// Not recommended for production
 const server = http.createServer((req, res) => {
   const { pathname } = url.parse(req.url)
-  let id = pathname.match(/^\/(\d+)$/)
+  let id = pathname.match(/^\/(\d+)$/) // 1 - 1 relationship -- oversimplified data model
 
   if (!id) {
     res.statusCode = 400

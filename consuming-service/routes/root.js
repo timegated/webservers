@@ -2,11 +2,11 @@
 const got = require('got');
 
 const {
-  BICYCLE_SERVICE_PORT = 4000,
+  BICYCLE_SERVICE_PORT = 4000, // Setting the ports to process.env variable
   BRAND_SERVICE_PORT = 5000,
 } = process.env;
 
-console.log({ BICYCLE_SERVICE_PORT });
+console.log({ BICYCLE_SERVICE_PORT }); // We can access these after we run the services individually
 
 const bicycleSrv = `http://localhost:${BICYCLE_SERVICE_PORT}`;
 const brandSrv = `http://localhost:${BRAND_SERVICE_PORT}`;
