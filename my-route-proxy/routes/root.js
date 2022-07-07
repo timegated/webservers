@@ -2,7 +2,9 @@
 const {Readable} = require('stream');
 
 async function * upper (res) {
+  console.log(res);
   for await (const chunk of res) {
+    console.log(chunk);
     yield chunk.toString().toUpperCase();
   }
 }
@@ -20,7 +22,6 @@ module.exports = async function (fastify, opts) {
     }
     return reply.from(url, {
       onResponse (request, reply, res) {
-        console.log('the request: ', request);
         reply.send(Readable.from(upper(res)));
       }
     }); // Promise that resolves once the upstream URL has been sent as a response to the client.
