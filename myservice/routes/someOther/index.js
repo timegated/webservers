@@ -11,7 +11,7 @@ const convert = (name) => {
 
 
 module.exports = async function (fastify, opts) {
-  fastify.get('/someOther', async function (request, reply) {
+  fastify.get('/', async function (request, reply) {
     try {
       console.log('request: ', request.query);
       if (!request.query.name) {
