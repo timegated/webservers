@@ -1,12 +1,21 @@
 var express = require('express');
 var router = express.Router();
 
+function convert (name) {
+  const parts = name.split(' ');
+  const last = parts.pop();
+  const first = parts.shift();
+  return  {first, last};
+}
 
+// Request, Response, Next for any callback functionality.
 router.get('/', (req, res, next) => {
-  if (err) {
-    throw new Error('something went wrong');
+  if (Array.isArray(req.query.name)) {
+    res.send(req.query.name.map(convert));
+  } else {
+    res.send(convert(req.query.name));
   }
-  res.send({msg: 'this route is ready to go'});
+  // res.send({msg: 'this route is ready to go'};
 });
 
 module.exports = router;

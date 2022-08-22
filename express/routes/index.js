@@ -2,6 +2,7 @@
 const { Router } = require('express')
 const router = Router()
 
+// Here we're just sending an html string to the client
 const root = `<html>
 <head>
   <style>
@@ -14,7 +15,8 @@ const root = `<html>
 </body>
 </html>
 `
-
+// If we went with a three-layer model here it would be index -> service -> dao.
+// Basically passing any inputs between the three in that order.
 router.get('/', (req, res) => {
   res.send(root)
 })
