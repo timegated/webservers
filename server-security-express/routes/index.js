@@ -15,7 +15,6 @@ router.get('/', (req, res, next) => {
   } else {
     res.send(convert(req.query.name));
   }
-  // res.send({msg: 'this route is ready to go'};
 });
 
 module.exports = router;
