@@ -6,11 +6,29 @@ const read = promisify(bicycle.read)
 const create = promisify(bicycle.create)
 const update = promisify(bicycle.update)
 const del = promisify(bicycle.del)
+const schema = {
+  body: {
+    type: 'object',
+    required: ['data'],
+    additionalProperties: false,
+    properties: {
+      data: {
+        type: 'object',
+        required: ['brand', 'color'],
+        additionalProperties: false,
+        properties: {
+          brand: { type: 'string' },
+          color: { type: 'string' },
+        }
+      }
+    }
+  }
+};
 
 module.exports = async (fastify, opts) => {
   const { notFound } = fastify.httpErrors
 
-  fastify.post('/', async (request, reply) => {
+  fastify.post('/', { schema }, async (request, reply) => {
     const { data } = request.body
     const id = uid()
     await create(id, data)
@@ -46,7 +64,7 @@ module.exports = async (fastify, opts) => {
     try {
       await create(id, data)
       reply.code(201)
-      return { }
+      return {}
     } catch (err) {
       if (err.message === 'resource exists') {
         await update(id, data)
