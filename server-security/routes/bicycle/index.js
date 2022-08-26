@@ -10,19 +10,17 @@ const del = promisify(bicycle.del)
 // Structuring the data
 // Data can only be created when it meets the specified criteria defined by the schema
 const schema = {
-  body: {
-    type: 'object',
-    required: ['data'],
-    additionalProperties: false,
-    properties: {
-      data: {
-        type: 'object',
-        required: ['brand', 'color'],
-        additionalProperties: false,
-        properties: {
-          brand: { type: 'string' },
-          color: { type: 'string' },
-        }
+  type: 'object',
+  required: ['data'],
+  additionalProperties: false,
+  properties: {
+    data: {
+      type: 'object',
+      required: ['brand', 'color'],
+      additionalProperties: false,
+      properties: {
+        brand: { type: 'string' },
+        color: { type: 'string' },
       }
     }
   }
@@ -31,10 +29,16 @@ const schema = {
 module.exports = async (fastify, opts) => {
   const { notFound } = fastify.httpErrors
 
-  fastify.post('/', { schema }, async (request, reply) => {
+  fastify.post('/', {
+    schema: {
+      body: schema
+    }
+  }, async (request, reply) => {
+    console.log("schema", schema);
     const { data } = request.body
     const id = uid()
-    await create(id, data)
+    await create(id, data);
+    // console.log(await create(id, data));
     reply.code(201)
     return { id }
   })
