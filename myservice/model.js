@@ -16,6 +16,7 @@ function bicycleModel() {
   const db = {
     1: { brand: 'Veloretti', color: 'green' },
     2: { brand: 'Batavus', color: 'yellow' },
+    3: { brand: 'Cannondale', color: 'blue', year: '1984' }
   };
 
   return {

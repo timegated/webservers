@@ -6,6 +6,9 @@ const read = promisify(bicycle.read)
 const create = promisify(bicycle.create)
 const update = promisify(bicycle.update)
 const del = promisify(bicycle.del)
+
+// Structuring the data
+// Data can only be created when it meets the specified criteria defined by the schema
 const schema = {
   body: {
     type: 'object',
@@ -49,7 +52,10 @@ module.exports = async (fastify, opts) => {
   })
 
   fastify.get('/:id', async (request, reply) => {
+    console.log(schema);
     const { id } = request.params
+    console.log(request);
+    console.log(request.params);
     try {
       return await read(id)
     } catch (err) {
