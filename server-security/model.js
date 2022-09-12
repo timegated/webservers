@@ -8,6 +8,7 @@ module.exports = {
   bicycle: bicycleModel()
 }
 
+
 // we could also write this as a class
 // in which case db would live in the constructor and the rest of the
 // operations would be methods that operate on the values defined
