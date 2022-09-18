@@ -11,23 +11,25 @@ const del = promisify(bicycle.del);
 module.exports = async (fastify, opts) => {
   // Structuring the data
   // Data can only be created when it meets the specified criteria defined by the schema
-  const schema = {
+  const dataSchema = {
+    type: 'object',
+    required: ['brand', 'color'],
+    additionalProperties: false,
+    properties: {
+      brand: { type: 'string' },
+      color: { type: 'string' },
+    }
+  };
+
+  const bodySchema = {
     type: 'object',
     required: ['data'],
     additionalProperties: false,
     properties: {
-      data: {
-        type: 'object',
-        required: ['brand', 'color'],
-        additionalProperties: false,
-        properties: {
-          brand: { type: 'string' },
-          color: { type: 'string' },
-        }
-      }
+      data: dataSchema
     }
   };
-  
+
   const paramsSchema = {
     id: {
       type: 'integer',
@@ -38,7 +40,7 @@ module.exports = async (fastify, opts) => {
 
   fastify.post('/', {
     schema: {
-      body: schema
+      body: bodySchema
     }
   }, async (request, reply) => {
     console.log("schema", schema);
@@ -52,7 +54,7 @@ module.exports = async (fastify, opts) => {
 
   fastify.post('/:id/update', {
     schema: {
-      body: schema,
+      body: bodySchema,
       params: paramsSchema,
     }
   }, async (request, reply) => {
@@ -70,6 +72,9 @@ module.exports = async (fastify, opts) => {
   fastify.get('/:id', {
     schema: {
       params: paramsSchema,
+      response: {
+        200: dataSchema,
+      }
     }
   }, async (request, reply) => {
     console.log(schema);
