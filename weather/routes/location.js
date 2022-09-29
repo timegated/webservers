@@ -10,7 +10,7 @@ const router = express.Router();
  * Address format: 2810+bedford,+Los+Angeles,+CA
  */
 router.get('/', (req, res, next) => {
-  const address = req.query.address;
+  // const address = req.query.address;
   console.log(JSON.stringify(req.query));
   console.log(address);
   if (address) {
