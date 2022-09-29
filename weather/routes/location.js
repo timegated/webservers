@@ -15,7 +15,9 @@ router.get('/', (req, res, next) => {
       url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.LOCATION}`,
       json: true
     }, (error, response, body) => {
-      console.log(JSON.stringify(body, undefined, 2));
+      console.log('error:', error);
+      console.log('statusCode: ', response && response.statusCode);
+      console.log("body: ", JSON.stringify(body, undefined, 2));
     });
     res.send('Calling google location api');
     return locationData;
