@@ -1,7 +1,10 @@
 var express = require('express');
 var request = require('request');
+
 require('dotenv').config();
+
 const router = express.Router();
+
 
 /**
  * Address format: 2810+bedford,+Los+Angeles,+CA
