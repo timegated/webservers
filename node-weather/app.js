@@ -34,14 +34,52 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// const geometry = {
+//   "bounds": {
+//     "northeast": {
+//       "lat": 39.9302214,
+//       "lng": -75.16864199999999
+//     },
+//     "southwest": {
+//       "lat": 39.93013120000001,
+//       "lng": -75.16888639999999
+//     }
+//   },
+//   "location": {
+//     "lat": 39.9301693,
+//     "lng": -75.1687429
+//   },
+//   "location_type": "ROOFTOP",
+//   "viewport": {
+//     "northeast": {
+//       "lat": 39.9315252802915,
+//       "lng": -75.1673453197085
+//     },
+//     "southwest": {
+//       "lat": 39.92882731970851,
+//       "lng": -75.17004328029151
+//     }
+//   }
+// }
+
 if (address) {
   request({
     url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.LOCATION}`,
     json: true
   }, (error, response, body) => {
-    console.log('error:', error);
-    console.log('statusCode: ', response && response.statusCode);
-    console.log("body: ", JSON.stringify(body, undefined, 2));
+    if (error) {
+      console.log('unable to connect to the google maps api')
+    } else if (body.status === 'ZERO_RESULTS') {
+      console.log('Unable to find that address');
+      return;
+    }
+    const address = JSON.stringify(body.results[0].formatted_address, undefined, 2);
+    const latitude = JSON.stringify(body.results[0].geometry.location.lat, undefined, 2);
+    const longitude = JSON.stringify(body.results[0].geometry.location.lng, undefined, 2);
+
+    console.log("Address: ", address);
+    console.log("Latitude: ", latitude);
+    console.log("Longitude: ", longitude);
   });
   console.log('Calling google location api');
 }
