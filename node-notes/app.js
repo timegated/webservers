@@ -3,7 +3,7 @@ const os = require('os');
 
 const user = os.userInfo();
 
-
+console.log('module: ', module);
 console.log('lol user info: ', user);
 
 fs.appendFile(
