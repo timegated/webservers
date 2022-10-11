@@ -10,16 +10,6 @@ var usersRouter = require('./routes/users');
 
 require('dotenv').config();
 
-console.log('process.env.password: ', process.env.password)
-
-
-// connection.query('SELECT * FROM items WHERE name = "Deathweed"', function(error, results, fields) {
-//   if (error) throw error;
-//   console.log('results: ', results[0]);
-// });
-
-// connection.end();
-
 var app = express();
 
 // view engine setup
