@@ -11,12 +11,11 @@ var debug = require('debug')('mysql-connection:server');
 var http = require('http');
 
 var connection = mysql.createConnection({
-  host: '172.18.16.1',
+  host: 'winhost',
   user: 'root2',
-  password: process.env.password,
+  password: process.env.password1,
   database: 'wow_test_db',
   port: 3306,
-  localAddress: '172.18.16.1'
 });
 
 connection.connect((err) => {
