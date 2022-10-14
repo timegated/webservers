@@ -8,23 +8,28 @@ const connection = mysql.createConnection({
   port: 3306,
 });
 
-export class ItemsDAO {
+class ItemsDAO {
   constructor() {
     this.connection = connection;
   }
 
-  getItemsByName (params) {
-    const queryText = `
-      SELECT item_id, name, class, subclass FROM items WHERE name="${params.name}";
+  async getItemsByName(params) {
+    console.log(params);
+    try {
+      const queryText = `
+      SELECT item_id, name, quality, display_id FROM items WHERE name="${params}";
     `;
-    const result = this.connection(queryText, (err, results, fields) => {
-      if (err) console.error('query failed: ', err);
-      console.log(fields);
-      return results[0];
-    });
 
-    // Any other parameters we need below with branching logic WHERE/AND/OR/IN
-
-    return result;
+      return this.connection.query(queryText, async (err, results, fields) => {
+        if (err) console.error('query failed: ', err);
+        const result = await results[0];
+        console.log('result from dao: ', result);
+        return result;
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
+
+module.exports = ItemsDAO;
