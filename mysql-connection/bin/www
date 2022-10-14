@@ -10,28 +10,6 @@ require('dotenv').config();
 var debug = require('debug')('mysql-connection:server');
 var http = require('http');
 
-var connection = mysql.createConnection({
-  host: '172.18.16.1',
-  user: 'root2',
-  password: process.env.password,
-  database: 'wow_test_db',
-  port: 3306,
-  localAddress: '172.18.16.1'
-});
-
-connection.connect((err) => {
-  if (err) {
-    console.error('error connecting: ', err.stack);
-    return;
-  }
-});
-
-connection.query('SELECT name FROM items WHERE name = "Worn Axe"', (error, results, fields) => {
-  if (error) throw error;
-  console.log('results: ', results[0]);
-});
-
-connection.end();
 
 /**
  * Get port from environment and store in Express.
