@@ -31,6 +31,18 @@ const html = `
   </body>
   </html>
 `
+function logger(req) {
+  const body = [];
+  req.on('data', (chunk) => {
+    console.log(chunk);
+    body.push(chunk);
+  });
+  req.on('end', () => {
+    const parsedBody = Buffer.concat(body).toString();
+    const message = parsedBody.split('=')[1];
+    fs.writeFileSync('messageLog.txt', message.replace(/\+|%/g, " "));
+  });
+}
 
 const server2 = http.createServer((req, res, error) => {
   res.setHeader('Content-Type', 'text/html');
@@ -38,28 +50,17 @@ const server2 = http.createServer((req, res, error) => {
   const method = req.method;
 
   if (url === '/') {
-     return res.end(html);
+    return res.end(html);
   }
-  
+
   // This is alot for parsing a simple txt message, but the underlying logic here
   // remains the same between libraries that abstract this away.
   if (url === '/message' && method === 'POST') {
-
-    const body = [];
-    req.on('data', (chunk) => {
-      console.log(chunk);
-      body.push(chunk);
-    });
-    req.on('end', () => {
-      const parsedBody = Buffer.concat(body).toString();
-      const message = parsedBody.split('=')[1];
-      fs.writeFileSync('messageLog.txt', message.replace(/[+]]|%/g, " "));
-    });
-
-    res.statusCode = 302;
-    res.setHeader('Location', '/');
-    return res.end();
-  }
+  logger(req);
+  res.statusCode = 302;
+  res.setHeader('Location', '/');
+  return res.end();
+}
 
   res.end();
 });
