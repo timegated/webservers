@@ -27,7 +27,6 @@ router.get('/', async function (req, res, next) {
       if (error) throw error;
       res.json(results[0]);
     });
-
     //  return itemService.getItemByName(req.query.name).then((data) => {
     //   console.log('data', data);
     //   res.json(data);
