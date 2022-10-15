@@ -1,5 +1,5 @@
 const http = require('http');
-
+const fs = require('fs');
 
 // const server = http.createServer((req, res, error) => {
 //   req.body = {
@@ -10,7 +10,7 @@ const http = require('http');
 //   }
 //   if (error) {
 //     res.end('Error');
-//     return;
+//     ;
 //   }
 //   res.end(`Hello \n
 //   ${JSON.stringify(req.url)},
@@ -21,21 +21,44 @@ const http = require('http');
 // });
 
 const html = `
+<html>
   <h1>Aaron Schwarz did nothing wrong</h1>
   <body>
-    <form action="POST"> 
-    <label for="msg" name="message"><input name="msg" type="text" placeholder="message"></input></label>
+    <form action="/message" method="POST"> 
+    <label for="msg" name="message"><textarea width="250" height="250" name="msg" type="text" placeholder="message"></textarea></label>
     <button type="submit">Send</button>
     </form>
   </body>
+  </html>
 `
 
 const server2 = http.createServer((req, res, error) => {
   res.setHeader('Content-Type', 'text/html');
   const url = req.url;
+  const method = req.method;
 
   if (url === '/') {
-    return res.end(html);
+     return res.end(html);
+  }
+  
+  // This is alot for parsing a simple txt message, but the underlying logic here
+  // remains the same between libraries that abstract this away.
+  if (url === '/message' && method === 'POST') {
+
+    const body = [];
+    req.on('data', (chunk) => {
+      console.log(chunk);
+      body.push(chunk);
+    });
+    req.on('end', () => {
+      const parsedBody = Buffer.concat(body).toString();
+      const message = parsedBody.split('=')[1];
+      fs.writeFileSync('messageLog.txt', message.replace(/[+]]|%/g, " "));
+    });
+
+    res.statusCode = 302;
+    res.setHeader('Location', '/');
+    return res.end();
   }
 
   res.end();
