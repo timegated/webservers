@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var model = require('../model');
 
-router.get('/:id',function (req, res, next) {
+router.get('/:id', function (req, res, next) {
   console.log('req from middleware: ', req.params.id)
   next();
 }, function(req, res, next) {
@@ -14,7 +14,6 @@ router.get('/:id',function (req, res, next) {
       res.send(result);
     }
   });
-
 });
 
 module.exports = router;

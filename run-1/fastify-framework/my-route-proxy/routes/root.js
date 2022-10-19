@@ -15,6 +15,7 @@ module.exports = async function (fastify, opts) {
   // Useful for mapping different endpoints to an upstream service
   fastify.get('/', async function (request, reply) {
     const { url } = request.query;
+    console.log(url);
     try {
       new URL(url); // Main difference when using URL constructor is protocol and origin.
     } catch (error) {

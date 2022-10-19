@@ -28,6 +28,12 @@ const schema = {
   }
 };
 
+const schema2 = {
+  body: {
+    type: 'object',
+    required: ['data']
+  }
+}
 module.exports = async (fastify, opts) => {
   const { notFound } = fastify.httpErrors
 

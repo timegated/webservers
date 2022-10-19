@@ -10,13 +10,13 @@ function queryBuilder(params) {
   };
 
   if (params.id) {
-    baseQuery.push('WHERE id in some_other_table');
+    baseQuery.push(`WHERE id = ${params.id}`);
   }
   if (params.name) {
-    baseQuery.push('WHERE name in some_other_table');
+    baseQuery.push(`AND name = ${params.name}`);
   }
   if (params.price) {
-    baseQuery.push('WHERE price in some_other_table');
+    baseQuery.push(`AND price = ${params.price}`);
   }
 
   return baseQuery.join(' ');
