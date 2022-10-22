@@ -9,7 +9,9 @@
   "scripts": {
     "test": "tap \"test/**/*.test.js\"",
     "start": "PORT=3001 fastify start -l info app.js",
-    "dev": "fastify start -w -l info -P app.js"
+    "dev": "fastify start -w -l info -P app.js",
+    "service-1": "BIKE_PORT=4000 node bicycle-service.cjs",
+    "service-2": "BRAND_PORT=5000 node brand-service.cjs"
   },
   "keywords": [],
   "author": "",

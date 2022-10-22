@@ -1,7 +1,51 @@
 'use strict'
+const got = require('got');
+const fs = require('fs');
+const Logger = require('../utils/logger');
+
+const bicycleSrv = `http://localhost:${process.env.BIKE_PORT}`;
+const brandSrv = `http://localhost:${process.env.BRAND_PORT}`;
+
+const logger = new Logger();
+console.log('instantiated logger: ', logger);
+
 
 module.exports = async function (fastify, opts) {
-  fastify.get('/', async function (request, reply) {
-    return { root: true }
-  })
+  fastify.get('/:id', async function (request, reply) {
+    const { httpErrors } = fastify;
+    try {
+      const { id } = request.params;
+
+      const [bicycle, brand] = await Promise.all([
+        await got(`${bicycleSrv}/${id}`).json(),
+        await got(`${brandSrv}/${id}`).json()
+      ]);
+      console.log(id);
+      if (!id) {
+        fs.appendFileSync('requestLogs/logs.txt', `bike ${bicycleSrv}/${id} + brand ${brandSrv}/${id} fail with status-code 500 \n\n`)
+      }
+
+      if (reply.statusCode === 200) {
+        fs.appendFileSync('requestLogs/logs.txt', `bike service ${bicycleSrv}/${id} + brand service ${brandSrv}/${id} success with status-code ${reply.statusCode} \n\n`);
+        console.log(reply.statusCode);
+      }
+
+      return {
+        id: bicycle.id,
+        color: bicycle.color,
+        brand: brand.name
+      };
+    } catch (error) {
+      console.log(error.response.statusCode);
+      if (!error.response) {
+        fs.appendFileSync('requestLogs/logs.txt', `bike ${bicycleSrv}/${id} + brand ${brandSrv}/${id} fail with status-code ${error.response.statusCode} \n\n`)
+        throw error;
+      };
+      if (error.response.statusCode === 404) {
+        fs.appendFileSync('requestLogs/logs.txt', `bike ${bicycleSrv}/${id} + brand ${brandSrv}/${id} fail with status-code ${error.response.statusCode} \n\n`)
+        throw httpErrors.notFound();
+      }
+      throw error;
+    }
+  });
 }

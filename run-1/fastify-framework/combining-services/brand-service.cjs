@@ -26,7 +26,7 @@ const server = http.createServer((req, res) => {
 
   res.end(JSON.stringify({
     id: id,
-    color: brands[id % brands.length]
+    name: brands[id % brands.length]
   }));
 });
 
