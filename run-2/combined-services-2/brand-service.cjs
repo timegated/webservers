@@ -1,17 +1,16 @@
-'use strict'
 const http = require('http');
 const url = require('url');
-const colors = ['yellow', 'red', 'orange', 'green', 'blue', 'indigo'];
-
+const name = ['Cannondale', 'Gary', 'Trek', 'Bianchi']
 
 const MISSING = 2;
 
-// created with http core module
+
 const server = http.createServer((req, res) => {
   const  {pathname} = url.parse(req.url);
+  console.log('url pathname parsed', pathname);
   let id = pathname.match(/^\/(\d+)$/);
   if (!id) {
-    res.statusCode = 400;
+    res.statusCode = 404;
     return void res.end();
   }
 
@@ -26,12 +25,13 @@ const server = http.createServer((req, res) => {
 
   res.end(JSON.stringify({
     id: id,
-    color: colors[id % colors.length]
-  }));
-});
+    name: name[id % name.length]
+  }))
+})
 
-server.listen(process.env.BIKE_PORT || 0, () => {
+server.listen(process.env.BRAND_PORT || 0, () => {
+  console.log(process.env.BRAND_PORT);
   console.log(process.env);
   const {port} = server.address();
-  console.log('Bicycle service listening on localhost on port: ' + port);
-})
+  console.log(`Server listening on ${port}`)
+});
