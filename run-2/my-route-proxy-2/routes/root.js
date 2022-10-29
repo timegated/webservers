@@ -1,5 +1,6 @@
 'use strict'
 // Uppercase data from upstream service
+const someSupport = require('support.js')
 const {Readable} = require('stream');
 
 async function * upper (res) {
