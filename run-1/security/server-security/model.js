@@ -32,7 +32,7 @@ function bicycleModel() {
     return Object.keys(db)
       .sort((a, b) => a - b)
       .map(Number)
-      .filter((n) => !isNaN(n))
+      .filter((n) => !isNaN(n)) // is a number
       .pop() + 1 + '';
   }
 

@@ -7,16 +7,23 @@ const create = promisify(bicycle.create);
 const update = promisify(bicycle.update);
 const del = promisify(bicycle.del);
 
+function convert (name) { // we use this here to parse out an array if it's passed in as part of the query
+  var parts = name.split(' ');
+  var last = parts.pop();
+  var first = parts.shift();
+  return {first: first, last: last};
+}
+
 
 module.exports = async (fastify, opts) => {
   // Structuring the data
   // Data can only be created when it meets the specified criteria defined by the schema
   const dataSchema = {
-    type: 'object',
-    required: ['brand', 'color'],
-    additionalProperties: false,
-    properties: {
-      brand: { type: 'string' },
+    type: 'object', // type
+    required: ['brand', 'color'], // required properties
+    additionalProperties: false, // extended properties option
+    properties: { // specific properties themselves
+      brand: { type: 'string' }, 
       color: { type: 'string' },
     }
   };
@@ -53,7 +60,7 @@ module.exports = async (fastify, opts) => {
   })
 
   fastify.post('/:id/update', {
-    schema: {
+    schema: { // takes in schema property as an object and defines rules for body (any data on the request) and parameters (url)
       body: bodySchema,
       params: paramsSchema,
     }
@@ -69,7 +76,7 @@ module.exports = async (fastify, opts) => {
     }
   })
 
-  fastify.get('/:id', {
+  fastify.get('/:id', { // we can define the schema as opts here and pass it in
     schema: {
       params: paramsSchema,
       response: {
