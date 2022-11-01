@@ -20,13 +20,8 @@ module.exports = async function (fastify, opts) {
         await got(`${bicycleSrv}/${id}`).json(),
         await got(`${brandSrv}/${id}`).json()
       ]);
-      console.log(id);
-      if (!id) {
-        fs.appendFileSync('requestLogs/logs.txt', `bike ${bicycleSrv}/${id} + brand ${brandSrv}/${id} fail with status-code 500 \n\n`)
-      }
 
       if (reply.statusCode === 200) {
-        fs.appendFileSync('requestLogs/logs.txt', `bike service ${bicycleSrv}/${id} + brand service ${brandSrv}/${id} success with status-code ${reply.statusCode} \n\n`);
         console.log(reply.statusCode);
       }
 
@@ -38,11 +33,9 @@ module.exports = async function (fastify, opts) {
     } catch (error) {
       console.log(error.response.statusCode);
       if (!error.response) {
-        fs.appendFileSync('requestLogs/logs.txt', `bike ${bicycleSrv}/${id} + brand ${brandSrv}/${id} fail with status-code ${error.response.statusCode} \n\n`)
         throw error;
       };
       if (error.response.statusCode === 404) {
-        fs.appendFileSync('requestLogs/logs.txt', `bike ${bicycleSrv}/${id} + brand ${brandSrv}/${id} fail with status-code ${error.response.statusCode} \n\n`)
         throw httpErrors.notFound();
       }
       throw error;

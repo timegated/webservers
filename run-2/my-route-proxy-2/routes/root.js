@@ -1,6 +1,5 @@
 'use strict'
 // Uppercase data from upstream service
-const someSupport = require('support.js')
 const {Readable} = require('stream');
 
 async function * upper (res) {
@@ -10,18 +9,23 @@ async function * upper (res) {
   }
 }
 
-module.exports = async function (fastify, opts) {
-  fastify.get('/', async function (request, reply) {
-    const {url} = request.query;
-    try {
-      new URL(url);      
-    } catch (error) {
-      throw fastify.httpErrors.badRequest();
-    }
-    return reply.from(url, {
-      onResponse(request, reply, res) {
-        reply.send(Readable.from(upper(res)))
-      }
-    });
-  })
-}
+// module.exports = async function (fastify, opts) {
+//   fastify.get('/', async function (request, reply) {
+//     const {url} = request.query;
+//     try {
+//       new URL(url);      
+//     } catch (error) {
+//       throw fastify.httpErrors.badRequest();
+//     }
+//     return reply.from(url, {
+//       onResponse(request, reply, res) {
+//         reply.send(Readable.from(upper(res)))
+//       }
+//     });
+//   })
+// }
+// module.exports = async (fastify, opts) => {
+//   fastify.get('/', async (request, reply) => {
+//     return 'hello';
+//   })
+// }

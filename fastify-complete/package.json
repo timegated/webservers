@@ -1,5 +1,5 @@
 {
-  "name": "myservice",
+  "name": "fastify-complete",
   "version": "1.0.0",
   "description": "This project was bootstrapped with Fastify-CLI.",
   "main": "app.js",
@@ -8,20 +8,21 @@
   },
   "scripts": {
     "test": "tap \"test/**/*.test.js\"",
-    "start": "fastify start -l info app.js",
+    "start": "PORT=4000 fastify start -l info app.js",
     "dev": "fastify start -w -l info -P app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fastify/autoload": "^5.4.1",
-    "@fastify/sensible": "^5.1.1",
-    "fastify": "^4.9.2",
-    "fastify-cli": "^2.15.0",
-    "fastify-plugin": "^3.0.0"
+    "@fastify/autoload": "^4.0.0",
+    "@fastify/sensible": "^4.0.0",
+    "fastify": "^3.0.0",
+    "fastify-cli": "^3.1.0",
+    "fastify-plugin": "^3.0.0",
+    "nodemon": "^2.0.20"
   },
   "devDependencies": {
-    "tap": "^15.1.6"
+    "tap": "^16.1.0"
   }
 }

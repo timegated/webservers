@@ -10,3 +10,13 @@ bike service http://localhost:4000/1 + brand service http://localhost:5000/1 suc
 
 bike service http://localhost:4000/4 + brand service http://localhost:5000/4 success with status-code 200 
 
+bike service http://localhost:4000/1 + brand service http://localhost:5000/1 success with status-code 200 
+
+bike service http://localhost:4000/4 + brand service http://localhost:5000/4 success with status-code 200 
+
+bike service http://localhost:4000/5 + brand service http://localhost:5000/5 success with status-code 200 
+
+bike service http://localhost:4000/6 + brand service http://localhost:5000/6 success with status-code 200 
+
+bike service http://localhost:4000/7 + brand service http://localhost:5000/7 success with status-code 200 
+

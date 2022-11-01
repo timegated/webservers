@@ -25,15 +25,16 @@ const schema = {
         }
       }
     }
+  },
+  response: {
+    201: {
+      id: {
+        type: 'integer'
+      }
+    }
   }
 };
 
-const schema2 = {
-  body: {
-    type: 'object',
-    required: ['data']
-  }
-}
 module.exports = async (fastify, opts) => {
   const { notFound } = fastify.httpErrors
 
@@ -41,36 +42,39 @@ module.exports = async (fastify, opts) => {
     const { data } = request.body
     const id = uid()
     await create(id, data)
-    reply.code(201)
+    reply.code(201) // created
     return { id }
   })
 
-  fastify.post('/:id/update', async (request, reply) => {
+  fastify.post('/:id/update', { schema }, async (request, reply) => {
     const { id } = request.params
     const { data } = request.body
     try {
       await update(id, data)
-      reply.code(204)
+      reply.code(204) // no content
     } catch (err) {
       if (err.message === 'not found') throw notFound()
       throw err
     }
   })
 
-  fastify.get('/:id', async (request, reply) => {
-    console.log(schema);
+  fastify.get('/:id', {
+    schema: {
+      body: schema.body,
+      response: schema.response
+    }
+  }, async (request, reply) => {
     const { id } = request.params
-    console.log(request);
-    console.log(request.params);
     try {
-      return await read(id)
+      // return await read(id)
+      return { ka: "boom" }
     } catch (err) {
       if (err.message === 'not found') throw notFound()
       throw err
     }
   })
 
-  fastify.put('/:id', async (request, reply) => {
+  fastify.put('/:id', schema.params, async (request, reply) => {
     const { id } = request.params
     const { data } = request.body
     try {
