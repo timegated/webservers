@@ -5,7 +5,6 @@
  */
 
 var app = require('../app');
-const mysql = require('mysql');
 require('dotenv').config();
 var debug = require('debug')('mysql-connection:server');
 var http = require('http');

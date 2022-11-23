@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 class PgSQL {
   constructor() {
     this.connection = new Pool({
-      host: "localhost",
+      host: "docker.internal.host",
       database: "account_notes",
       password: "localhost",
     });

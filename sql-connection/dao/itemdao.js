@@ -22,9 +22,7 @@ class ItemsDAO {
 
       return this.connection.query(queryText, async (err, results, fields) => {
         if (err) console.error('query failed: ', err);
-        const result = await results[0];
-        console.log('result from dao: ', result);
-        return result;
+        return await results[0];
       });
     } catch (error) {
       console.error(error);

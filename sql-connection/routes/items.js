@@ -32,14 +32,14 @@ const pgService = new PgService();
  */
 router.get('/', async function (req, res, next) {
   try {
-    connection.query(`SELECT item_id, name, class, display_id FROM items WHERE name = "${req.query.name}"`, (error, results, fields) => {
-      if (error) throw error;
-      res.json(results[0]);
-    });
-    //  return itemService.getItemByName(req.query.name).then((data) => {
-    //   console.log('data', data);
-    //   res.json(data);
-    //  });
+    // connection.query(`SELECT item_id, name, class, display_id FROM items WHERE name = "${req.query.name}"`, (error, results, fields) => {
+    //   if (error) throw error;
+    //   res.json(results[0]);
+    // });
+     return await itemService.getItemByName(req.query.name).then((data) => {
+      console.log('data', data);
+      res.send(data);
+     });
   } catch (error) {
     throw new Error(error, 'name field cannot be empty');
   }
