@@ -38,7 +38,7 @@ router.get('/', async function (req, res, next) {
     // });
      return await itemService.getItemByName(req.query.name).then((data) => {
       console.log('data', data);
-      res.send(data);
+      res.json(data);
      });
   } catch (error) {
     throw new Error(error, 'name field cannot be empty');

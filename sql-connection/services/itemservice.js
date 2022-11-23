@@ -6,7 +6,7 @@ class ItemService {
   }
 
   getItemByName = async (params) => {
-    return await this.dao.getItemsByName(params);
+    return this.dao.getItemsByName(params).then((data) => data);
   }
 }
 
