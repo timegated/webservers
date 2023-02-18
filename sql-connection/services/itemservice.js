@@ -5,8 +5,9 @@ class ItemService {
     this.dao = new ItemsDAO();
   }
 
-  getItemByName = async (params) => {
-    return this.dao.getItemsByName(params).then((data) => data);
+  getItemByName = async (name) => {
+    const data = await this.dao.getItemsByName(name);
+    return data;
   }
 }
 

@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const util = require('util');
 
 const connection = mysql.createConnection({
   host: 'winhost',
@@ -13,21 +14,23 @@ class ItemsDAO {
     this.connection = connection;
   }
 
-  async getItemsByName(params) {
-    console.log(params);
-    try {
-      const queryText = `
-      SELECT item_id, name, quality, display_id FROM items WHERE name="${params}";
-    `;
+  queryCallback(err, results, fields) {
+    if (err) throw err;
+    const result = results[0];
+    console.log('FROM DAO: ', JSON.stringify(result));
+    return JSON.stringify(result);
+  }
 
-      return this.connection.query(queryText, async (err, results, fields) => {
-        if (err) console.error('query failed: ', err);
-        const result = await results[0];
-        return result;
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  async getItemsByName(name) {
+    this.connection.query = util.promisify(this.connection.query);
+    console.log(name);
+    const queryText = `
+      SELECT item_id, name, quality, display_id FROM items WHERE name="${name}";
+    `;
+    const result = this.connection.query(queryText, (err, results, fields) => {
+      this.queryCallback(err, results, fields);
+    });
+    return result;
   }
 }
 

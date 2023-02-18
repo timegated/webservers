@@ -10,6 +10,19 @@ require('dotenv').config();
 const ItemService = require('../services/itemservice');
 const PgService = require('../services/pgService');
 
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (key, value) => {
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
+
 var connection = mysql.createConnection({
   host: 'winhost',
   user: 'root2',
@@ -32,14 +45,22 @@ const pgService = new PgService();
  */
 router.get('/', async function (req, res, next) {
   try {
-    connection.query(`SELECT item_id, name, class, display_id FROM items WHERE name = "${req.query.name}"`, (error, results, fields) => {
-      if (error) throw error;
-      res.json(results[0]);
-    });
-    //  return await itemService.getItemByName(req.query.name).then((data) => {
-    //   console.log('data', data);
-    //   res.json(data);
-    //  });
+    const name = req.query.name;
+    if (!name) {
+      connection.query(`SELECT item_id, name, class, display_id FROM items`, (err, results) => {
+        if (err) throw err;
+        res.json(results);
+      })
+    } else {
+      connection.query(`SELECT item_id, name, class, display_id FROM items WHERE name = "${name}"`, (error, results, fields) => {
+        if (error) throw error;
+        console.log(results[0]);
+        res.json(results[0]);
+      });
+    }
+    // const result = await itemService.getItemByName(name)
+    // console.log('RESULT FROM ROUTE: ', result);
+    // res.status(200).send(JSON.stringify(result, getCircularReplacer()));
   } catch (error) {
     throw new Error(error, 'name field cannot be empty');
   }
