@@ -10,9 +10,9 @@ const brandSrv = `http://localhost:${BRAND_PORT}`;
 module.exports = async function (fastify, opts) {
   const { httpErrors } = fastify;
   fastify.get('/:id', async function (request, reply) {
-    const {id} = request.params;
+    const { id } = request.params;
     try {
-      const  [bike, brand] = await Promise.all([
+      const [bike, brand] = await Promise.all([
         got(`${bikeSrv}/${id}`).json(),
         got(`${brandSrv}/${id}`).json(),
       ]);
