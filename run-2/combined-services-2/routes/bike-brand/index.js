@@ -1,5 +1,6 @@
 'use strict'
 const got = require('got');
+require('dotenv').config();
 
 const {
   BIKE_PORT, BRAND_PORT

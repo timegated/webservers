@@ -9,9 +9,7 @@ const bannedIps = [
 module.exports = fp(async function (fastify, opts) {
   fastify.addHook('onRequest', async function (request) {
     if (bannedIps.includes(request.ip)) { // ban myself
-      const err = new Error('Forbidden');
-      err.status = 403;
-      throw err;
+      throw fastify.httpErrors.forbidden()
     }
   })
 })

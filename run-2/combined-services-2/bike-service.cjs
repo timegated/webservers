@@ -1,7 +1,7 @@
 const http = require('http');
 const url = require('url');
 const colors = ['yellow', 'red', 'orange', 'green', 'blue', 'indigo']
-
+require('dotenv').config();
 const MISSING = 3;
 
 const BIKE_PORT = process.env.BIKE_PORT;
@@ -30,7 +30,7 @@ const server = http.createServer((req, res) => {
   }))
 })
 
-server.listen(process.env.BIKE_PORT || 0, () => {
+server.listen(BIKE_PORT || 0, () => {
   const {port} = server.address();
   console.log(server.address());
   console.log(`Bike service listening on port: ${port}`)

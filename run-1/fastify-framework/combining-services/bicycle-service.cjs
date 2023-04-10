@@ -2,7 +2,7 @@
 const http = require('http');
 const url = require('url');
 const colors = ['yellow', 'red', 'orange', 'green', 'blue', 'indigo'];
-
+require('dotenv').config();
 
 const MISSING = 2;
 

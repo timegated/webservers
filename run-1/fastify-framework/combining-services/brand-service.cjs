@@ -2,6 +2,7 @@
 const http = require('http');
 const url = require('url');
 const brands = ['Gazelle', 'Batavus', 'Azor', 'Cortina', 'Giant','Sparta'];
+require('dotenv').config();
 
 
 const MISSING = 3;

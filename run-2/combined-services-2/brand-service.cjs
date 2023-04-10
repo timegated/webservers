@@ -1,9 +1,11 @@
 const http = require('http');
 const url = require('url');
 const name = ['Cannondale', 'Gary', 'Trek', 'Bianchi']
+require('dotenv').config();
 
 const MISSING = 2;
 
+const BRAND_PORT = process.env.BRAND_PORT;
 
 const server = http.createServer((req, res) => {
   const  {pathname} = url.parse(req.url);
@@ -29,9 +31,8 @@ const server = http.createServer((req, res) => {
   }))
 })
 
-server.listen(process.env.BRAND_PORT || 0, () => {
-  console.log(process.env.BRAND_PORT);
-  console.log(process.env);
+server.listen(BRAND_PORT || 0, () => {
+  console.log(BRAND_PORT);
   const {port} = server.address();
   console.log(`Server listening on ${port}`)
 });

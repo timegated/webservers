@@ -19,6 +19,7 @@
   "dependencies": {
     "@fastify/autoload": "^4.0.0",
     "@fastify/sensible": "^4.0.0",
+    "dotenv": "^16.0.3",
     "fastify": "^3.0.0",
     "fastify-cli": "^3.1.0",
     "fastify-plugin": "^3.0.0",
