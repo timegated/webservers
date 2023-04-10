@@ -1,9 +1,8 @@
 require("babel-register");
 let express = require('express');
 let cors = require('cors')
-let config = require('./config/config');
+
 let env = require('node-env-file');
-let helpers = require('./app/helpers/helpers');
 let bodyParser = require('body-parser');
 env(__dirname + '/.env');
 let app = express();
