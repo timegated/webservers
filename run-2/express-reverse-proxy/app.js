@@ -4,8 +4,8 @@ let cors = require('cors')
 
 let env = require('node-env-file');
 let bodyParser = require('body-parser');
-env(__dirname + '/.env');
 let app = express();
+
 app.use(cors({
   credentials: true,
   origin: true
